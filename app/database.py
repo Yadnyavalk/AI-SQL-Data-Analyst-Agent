@@ -100,6 +100,7 @@ def run_query(query):
 
     cursor = conn.cursor()
 
+   
     cursor.execute(query)
 
     results = cursor.fetchall()
@@ -107,4 +108,3 @@ def run_query(query):
     conn.close()
 
     return results
-
