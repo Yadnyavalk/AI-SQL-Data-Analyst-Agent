@@ -9,12 +9,20 @@ from langchain_core.messages import SystemMessage,HumanMessage
 
 llm = get_llm()
 
+print("Welcome to AI SQL Data Analyst 🚀")
+print("-" * 50)
+
+user_question = input("Ask your question: ")
+
+
 messages = [SystemMessage(content  = SYSTEM_PROMPT),
             HumanMessage(content = "Show all employees from pune")]
 
 response = llm.invoke(messages)
 
 sql_query = response.content[0]["text"]
+
+print("\nGenerated SQL:")
 print(sql_query)
 
 
