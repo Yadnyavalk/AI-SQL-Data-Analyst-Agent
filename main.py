@@ -43,7 +43,7 @@ while True:
         print("\nGenerated SQL:")
         print(sql_query)
 
-        results = run_query(sql_query)
+        results, headers = run_query(sql_query)
 
         if results is None:
             print("\nUnable to execute query.")
@@ -56,12 +56,7 @@ while True:
             print("No records found.")
 
         else:
-            headers = ["Employee ID",
-                        "Name",
-                        "Department",
-                        "Salary",
-                        "City"]
-
+         
             print(tabulate(results,headers = headers,tablefmt="grid"))
                       
 

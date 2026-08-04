@@ -107,9 +107,13 @@ def run_query(query):
 
     results = cursor.fetchall()
 
+    # Get column names returned by SQLite
+    headers = [description[0] for description in cursor.description]
+
+
     conn.close()
 
-    return results
+    return results,headers
 
   except Exception as e:
 
