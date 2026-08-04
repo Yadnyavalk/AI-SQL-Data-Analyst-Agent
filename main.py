@@ -12,41 +12,41 @@ print("-" * 50)
 
 while True:
 
-    user_question = input("\nAsk your question (or type 'exit'): ")
-
-    if user_question.lower() == "exit":
-        print("\nGoodbye! 👋")
-        break
-
-    messages = [
-        SystemMessage(content=SYSTEM_PROMPT),
-        HumanMessage(content=user_question)
-    ]
+    ...
 
     response = llm.invoke(messages)
 
-    sql_query = response.content[0]["text"]
+    ai_response = response.content[0]["text"]
 
-    print("\nGenerated SQL:")
-    print(sql_query)
+    # Check whether Gemini generated SQL
+    if ai_response.strip().upper().startswith("SELECT"):
 
-    results = run_query(sql_query)
+        sql_query = ai_response
 
-    if results is None:
-        print("\nUnable to execute query.")
-        continue
+        print("\nGenerated SQL:")
+        print(sql_query)
 
-    print("\nQuery Results")
-    print("=" * 50)
+        results = run_query(sql_query)
 
-    if len(results) == 0:
-        print("No records found.")
+        if results is None:
+            print("\nUnable to execute query.")
+            continue
+
+        print("\nQuery Results")
+        print("=" * 50)
+
+        if len(results) == 0:
+            print("No records found.")
+
+        else:
+            for employee in results:
+                print(f"Employee ID : {employee[0]}")
+                print(f"Name        : {employee[1]}")
+                print(f"Department  : {employee[2]}")
+                print(f"Salary      : ₹{employee[3]:,}")
+                print(f"City        : {employee[4]}")
+                print("-" * 50)
 
     else:
-        for employee in results:
-            print(f"Employee ID : {employee[0]}")
-            print(f"Name        : {employee[1]}")
-            print(f"Department  : {employee[2]}")
-            print(f"Salary      : ₹{employee[3]:,}")
-            print(f"City        : {employee[4]}")
-            print("-" * 50)
+        print("\nAI:")
+        print(ai_response)
