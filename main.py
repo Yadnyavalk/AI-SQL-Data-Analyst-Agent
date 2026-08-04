@@ -2,9 +2,7 @@ from app.llm import get_llm
 from app.prompts import SYSTEM_PROMPT
 from app.database import run_query
 
-from langchain_core.messages import SystemMessage,HumanMessage
-
-
+from langchain_core.messages import SystemMessage, HumanMessage
 
 
 llm = get_llm()
@@ -12,32 +10,39 @@ llm = get_llm()
 print("Welcome to AI SQL Data Analyst 🚀")
 print("-" * 50)
 
-user_question = input("Ask your question: ")
+while True:
 
+    user_question = input("\nAsk your question (or type 'exit'): ")
 
-messages = [SystemMessage(content  = SYSTEM_PROMPT),
-            HumanMessage(content = "Show all employees from pune")]
+    if user_question.lower() == "exit":
+        print("\nGoodbye! 👋")
+        break
 
-response = llm.invoke(messages)
+    messages = [
+        SystemMessage(content=SYSTEM_PROMPT),
+        HumanMessage(content=user_question)
+    ]
 
-sql_query = response.content[0]["text"]
+    response = llm.invoke(messages)
 
-print("\nGenerated SQL:")
-print(sql_query)
+    sql_query = response.content[0]["text"]
 
+    print("\nGenerated SQL:")
+    print(sql_query)
 
-results = run_query(sql_query)
-print("\nQuery Results")
-print("=" * 50)
+    results = run_query(sql_query)
 
-if len(results) == 0:
-    print("No records found.")
+    print("\nQuery Results")
+    print("=" * 50)
 
-else:
-    for employee in results:
-        print(f"Employee ID : {employee[0]}")
-        print(f"Name        : {employee[1]}")
-        print(f"Department  : {employee[2]}")
-        print(f"Salary      : ₹{employee[3]:,}")
-        print(f"City        : {employee[4]}")
-        print("-" * 50)
+    if len(results) == 0:
+        print("No records found.")
+
+    else:
+        for employee in results:
+            print(f"Employee ID : {employee[0]}")
+            print(f"Name        : {employee[1]}")
+            print(f"Department  : {employee[2]}")
+            print(f"Salary      : ₹{employee[3]:,}")
+            print(f"City        : {employee[4]}")
+            print("-" * 50)
