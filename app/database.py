@@ -96,6 +96,8 @@ if __name__ == "__main__":
 
 def run_query(query):
 
+  try :
+    
     conn = get_connection()
 
     cursor = conn.cursor()
@@ -108,3 +110,11 @@ def run_query(query):
     conn.close()
 
     return results
+
+  except Exception as e:
+
+      print("\nDatabase Error:")
+      print(e)
+
+      return None
+

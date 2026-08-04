@@ -32,6 +32,9 @@ while True:
 
     results = run_query(sql_query)
 
+    if results is None:
+        print("\nUnable to execute query.")
+
     print("\nQuery Results")
     print("=" * 50)
 
