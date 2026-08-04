@@ -34,6 +34,7 @@ while True:
 
     if results is None:
         print("\nUnable to execute query.")
+        continue
 
     print("\nQuery Results")
     print("=" * 50)
