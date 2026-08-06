@@ -2,7 +2,7 @@ from app.sql_agent import SQLAgent
 from tabulate import tabulate
 
 # Create SQL Agent
-agent = SQLAgent()
+agent = SQLAgent("bank_data")
 
 print("Welcome to AI SQL Data Analyst 🚀")
 print("-" * 50)

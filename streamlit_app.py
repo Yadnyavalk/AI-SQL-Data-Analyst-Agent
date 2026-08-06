@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 from app.sql_agent import SQLAgent
 
-agent = SQLAgent()
 
 if "history" not in st.session_state:
     st.session_state.history=[]
@@ -11,6 +10,26 @@ st.title("🤖 AI SQL Data Analyst")
 
 st.sidebar.title("📌 About")
 
+st.sidebar.markdown("---")
+
+st.subheader("📂 PROJECT")
+
+selected_project = st.selectbox(
+    "",
+    [
+        "🏦 Bank Churn Analysis",
+        "🍕 Pizza Sales Analysis"
+    ]
+)
+if selected_project == "🏦 Bank Churn Analysis":
+    database_name = "bank_data"
+
+else:
+    database_name = "pizzahut"
+
+agent = SQLAgent(database_name)
+
+
 st.sidebar.write(
     """
     AI-powered SQL Data Analyst
@@ -18,7 +37,7 @@ st.sidebar.write(
     Built with:
     - Groq
     - LangChain
-    - SQLite
+    - MYSQL
     - Streamlit
     """
 )

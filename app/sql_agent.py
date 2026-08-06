@@ -1,7 +1,9 @@
 from app.llm import get_llm
 from app.prompts import SYSTEM_PROMPT
-from app.database import run_query
-from app.schema import get_database_schema
+from app.mysql_database import run_query
+from app.mysql_schema import get_database_schema
+
+
 
 from langchain_core.messages import (
     SystemMessage,
@@ -11,12 +13,18 @@ from langchain_core.messages import (
 
 class SQLAgent:
 
-    def __init__(self):
+    def __init__(self,database_name):
         # Create the LLM once
         self.llm = get_llm()
 
+        # store selected databse,so agent remembers which database it using if asked different que,
+        # storing here becoz passing database name like 
+        # agent.process_question("bank_data",question)  becomes messy 
+           
+        self.database_name = database_name
+
         # Load the database schema once
-        self.schema = get_database_schema()
+        self.schema = get_database_schema(self.database_name)
 
     def ask(self, user_question):
         """
@@ -26,7 +34,10 @@ class SQLAgent:
         messages = [
             SystemMessage(
                 content=SYSTEM_PROMPT.format(
+
+                    database_name=self.database_name,
                     schema=self.schema
+                
                 )
             ),
             HumanMessage(
@@ -53,7 +64,7 @@ class SQLAgent:
         Executes the generated SQL query on SQLite.
         """
 
-        results, headers = run_query(sql_query)
+        results, headers = run_query(self.database_name,sql_query)
 
         return results, headers
 
