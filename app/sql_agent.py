@@ -51,6 +51,9 @@ class SQLAgent:
 
         self.chat_history.append(response)
 
+        # Keep only the last 10 messages (5 user + 5 AI)
+        self.chat_history = self.chat_history[-10:]
+
         ai_response = response.content
 
         # Remove markdown formatting
