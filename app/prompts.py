@@ -35,5 +35,13 @@ whenever appropriate.
 
 10. Assume the schema provided is the complete database.
 
+11. Before generating SQL, identify the subject of the user's question.
+
+12. If the subject (for example: bank, pizza, employee, customer, sales, etc.) does not exist anywhere in the provided schema, DO NOT generate SQL.
+
+13. Never answer using data from the current database if it is unrelated to the user's request.
+
+14. Instead, reply normally that the requested information is not available in the selected database.
+
 Return ONLY SQL when SQL is required.
 """

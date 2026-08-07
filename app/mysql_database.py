@@ -6,7 +6,7 @@ def get_connection(database_name):
         port = 3306,
         user = "root",
         password = "root",
-        database = "bank_data"
+        database = database_name
     )
 
     return connection
@@ -14,6 +14,7 @@ def get_connection(database_name):
 
 def run_query(database_name,query):
 
+  try:
     conn = get_connection(database_name)
 
     cursor = conn.cursor()
@@ -26,7 +27,10 @@ def run_query(database_name,query):
 
     conn.close()
 
-    return results,headers
+    return results,headers,None
+
+  except Exception as e:
+     return None,None, str(e)
 
 if __name__ == "__main__":
 
