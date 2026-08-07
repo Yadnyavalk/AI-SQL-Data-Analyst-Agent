@@ -1,4 +1,12 @@
 import streamlit as st
+
+st.set_page_config(
+    page_title="AI SQL Data Analyst",
+    page_icon="🤖",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
 import pandas as pd
 
 from app.sql_agent import SQLAgent
@@ -11,7 +19,10 @@ if "history" not in st.session_state:
 
 st.title("🤖 AI SQL Data Analyst")
 
-st.sidebar.title("📌 About")
+st.sidebar.title("🤖 AI SQL Data Analyst")
+
+st.sidebar.caption("Natural Language → SQL")
+
 st.sidebar.markdown("---")
 
 st.subheader("📂 PROJECT")
@@ -31,10 +42,10 @@ st.sidebar.write(
 AI-powered SQL Data Analyst
 
 Built with:
-- Groq
-- LangChain
-- MySQL
-- Streamlit
+- 🤖  Large Language Model (LLM)
+- 🦜 LangChain
+- 🗄  MySQL
+- 🎈 Streamlit
 """
 )
 
@@ -43,7 +54,8 @@ if st.button("🗑 Clear Chat"):
     st.rerun()
 
 
-question = st.text_input("Ask your question")
+question = st.text_input("Ask your question",
+           placeholder="Example: Show the top 10 customers with the highest balance")
 
 if st.button("Ask"):
 
@@ -69,7 +81,7 @@ for chat in st.session_state.history:
 
     st.write("👤 You:")
     st.write(chat["question"])
-
+    st.caption("Developed by Yadnyavalk Deshmukh | AI SQL Data Analyst | Powered by LangChain & Groq")
     result = chat["result"]
 
     if result["type"] == "sql":
