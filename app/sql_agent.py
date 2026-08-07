@@ -23,6 +23,8 @@ class SQLAgent:
         # Load database schema once
         self.schema = get_database_schema(self.database_name)
 
+        self.chat_history = []
+
     def ask(self, user_question):
         """
         Converts user's English question into SQL using LLM.
@@ -34,13 +36,20 @@ class SQLAgent:
                     database_name=self.database_name,
                     schema=self.schema
                 )
-            ),
+            )]
+        messages.extend(self.chat_history)
+
+        messages.append(
             HumanMessage(
                 content=user_question
-            )
-        ]
+            ))
+        
 
         response = self.llm.invoke(messages)
+
+        self.chat_history.append(HumanMessage(content=user_question))
+
+        self.chat_history.append(response)
 
         ai_response = response.content
 
