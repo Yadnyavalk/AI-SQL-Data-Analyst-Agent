@@ -1,11 +1,12 @@
 import mysql.connector
+import os
 
 def get_connection(database_name):
     connection = mysql.connector.connect(
-        host = "127.0.0.1",
-        port = 3306,
-        user = "root",
-        password = "root",
+        host = os.getenv("MYSQL_HOST"),
+        port = int(os.getenv("MYSQL_PORT")),
+        user = os.getenv("MYSQL_USER"),
+        password = os.getenv("MYSQL_PASSWORD"),
         database = database_name
     )
 
