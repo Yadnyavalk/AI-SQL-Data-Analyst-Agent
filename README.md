@@ -25,7 +25,7 @@ The application converts natural-language questions into SQL queries using an LL
 
 The application follows a modular architecture:
 
-```text
+
 User
   ↓
 Streamlit UI
