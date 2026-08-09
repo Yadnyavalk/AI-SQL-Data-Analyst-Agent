@@ -78,20 +78,81 @@ Schema Loader  Conversation      Prompt
 
 ---
 
+## 🖥️ Application Screenshots
+
+### 1. Main Application Interface
+
+The application provides a clean Streamlit interface where users can select a project and ask questions using natural language.
+
+![AI SQL Data Analyst - Main Interface](IMG-1.png)
+
+---
+
+### 2. Project Selection
+
+The application supports multiple database projects. Users can select the required project from the project dropdown.
+
+![Project Selection](IMG-2.png)
+
+Currently supported projects include:
+
+- 🏦 **Bank Churn Analysis**
+- 🍕 **Pizza Sales Analysis**
+
+---
+
+### 3. Natural Language to SQL
+
+The user can ask a question in natural language. The SQL Agent processes the question and generates an appropriate SQL query using the database schema and LLM.
+
+![Generated SQL Query](IMG-3.png)
+
+For example:
+
+> Find the total quantity of each pizza category ordered.
+
+The agent generates SQL using the required tables, joins, aggregation, grouping, and ordering.
+
+---
+
+### 4. SQL Execution and Results
+
+After generating the SQL query, the application executes it against the selected MySQL database and displays the results in a tabular format.
+
+![SQL Query Results](IMG-4.png)
+
+This demonstrates the complete flow:
+
+```text
+User Question
+      ↓
+SQL Agent
+      ↓
+Generated SQL
+      ↓
+MySQL Database
+      ↓
+Query Results
+      ↓
+Streamlit DataFrame
+```
+
+---
+
 ## 🛠️ Tech Stack
 
-| Technology | Purpose |
-|---|---|
-| Python | Application development |
-| Streamlit | Web interface |
-| MySQL | Database engine |
-| LangChain | LLM application framework |
-| LangChain Core | Message and LLM interaction components |
-| LangChain Groq | Groq LLM integration |
-| Groq | LLM provider |
-| Pandas | Query-result tabular display |
-| python-dotenv | Environment variable loading |
-| mysql-connector-python | MySQL connectivity |
+| Technology             | Purpose                                |
+| ---------------------- | -------------------------------------- |
+| Python                 | Application development                |
+| Streamlit              | Web interface                          |
+| MySQL                  | Database engine                        |
+| LangChain              | LLM application framework              |
+| LangChain Core         | Message and LLM interaction components |
+| LangChain Groq         | Groq LLM integration                   |
+| Groq                   | LLM provider                           |
+| Pandas                 | Query-result tabular display           |
+| python-dotenv          | Environment variable loading           |
+| mysql-connector-python | MySQL connectivity                     |
 
 ---
 
@@ -128,11 +189,15 @@ The application currently supports multiple MySQL databases through project sele
 
 **Database:** `bank_data`
 
+The Bank Churn project allows users to ask analytical questions about customer information, balances, geography, activity, products, and churn.
+
 ### 🍕
 
 **Pizza Sales Analysis**
 
 **Database:** `pizzahut`
+
+The Pizza Sales project allows users to ask questions about pizza orders, categories, quantities, revenue, and sales performance.
 
 Project-to-database mapping is maintained in:
 
@@ -225,9 +290,11 @@ The SQL Agent maintains conversation history so that follow-up questions can use
 For example:
 
 **User:**
+
 > Show customers from Germany.
 
 **User:**
+
 > How many of them have exited?
 
 The second question can use the context from the previous conversation.
@@ -275,6 +342,36 @@ The correction prompt specifically instructs the LLM to:
 - Avoid Markdown formatting
 
 This allows the application to retry failed SQL queries instead of immediately returning an error to the user.
+
+### Auto-Correction Example
+
+For example, an invalid query such as:
+
+```sql
+SELECT * FROM bank_churn
+ORDER BY balanc DESC
+LIMIT 10;
+```
+
+may produce a MySQL error:
+
+```text
+Unknown column 'balanc' in 'order clause'
+```
+
+The SQL Agent passes the error and relevant schema information to the correction prompt.
+
+The LLM can then generate:
+
+```sql
+SELECT * FROM bank_churn
+ORDER BY Balance DESC
+LIMIT 10;
+```
+
+The corrected SQL is executed again against MySQL.
+
+This demonstrates that the agent can detect an SQL execution failure and attempt to repair the generated query automatically.
 
 ---
 
@@ -369,6 +466,8 @@ Streamlit will provide a local URL where the application can be accessed.
 - Show the top 10 customers with the highest balance.
 - How many customers have exited?
 - Show the number of exited customers by geography.
+- Show the average balance of active members.
+- Which geography has the highest number of exited customers?
 
 ### 🍕
 
@@ -376,22 +475,25 @@ Streamlit will provide a local URL where the application can be accessed.
 
 - What are the top 10 pizzas by revenue?
 - Show total sales by pizza category.
+- Find the total quantity of each pizza category ordered.
+- Which pizza generated the highest revenue?
+- Show the number of pizzas sold by category.
 
 ---
 
 ## 📁 Main Components
 
-| File | Responsibility |
-|---|---|
-| `streamlit_app.py` | Streamlit user interface and interaction flow |
-| `app/sql_agent.py` | Central SQL Agent and application workflow |
-| `app/llm.py` | LLM initialization |
-| `app/mysql_schema.py` | Dynamic MySQL schema extraction |
-| `app/mysql_database.py` | MySQL connection and SQL execution |
-| `app/projects.py` | Project-to-database configuration |
-| `app/prompts.py` | Main SQL-generation prompt |
-| `app/error_prompt.py` | SQL error-correction prompt |
-| `requirements.txt` | Python dependencies |
+| File                    | Responsibility                                |
+| ----------------------- | --------------------------------------------- |
+| `streamlit_app.py`      | Streamlit user interface and interaction flow |
+| `app/sql_agent.py`      | Central SQL Agent and application workflow    |
+| `app/llm.py`            | LLM initialization                            |
+| `app/mysql_schema.py`   | Dynamic MySQL schema extraction               |
+| `app/mysql_database.py` | MySQL connection and SQL execution            |
+| `app/projects.py`       | Project-to-database configuration             |
+| `app/prompts.py`        | Main SQL-generation prompt                    |
+| `app/error_prompt.py`   | SQL error-correction prompt                   |
+| `requirements.txt`      | Python dependencies                           |
 
 ---
 
@@ -476,19 +578,5 @@ The project was developed incrementally through multiple development sprints cov
 - Conversation memory
 - Streamlit UI improvements
 - Deployment preparation
-
----
-
-## ⭐ Future Improvements
-
-Possible future improvements include:
-
-- Cloud deployment
-- Remote MySQL database support
-- User authentication
-- Additional database projects
-- Query visualization and analytics
-- Improved SQL validation
-- Production-level monitoring
 
 ---
