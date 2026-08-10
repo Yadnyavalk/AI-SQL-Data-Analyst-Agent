@@ -8,16 +8,16 @@ The application converts natural-language questions into SQL queries using an LL
 
 ## 🚀 Features
 
-- 🗣️ **Natural Language Queries:** Ask database questions using natural language.
-- 🤖 **AI-Powered SQL Generation:** Translates user questions into executable SQL.
-- 🗄️ **MySQL Database Integration:** Connects directly with MySQL databases.
-- 📊 **Tabular Result Display:** Displays query results in interactive tables.
-- 💬 **Conversational Memory:** Remembers previous conversation turns for follow-up questions.
-- 🔄 **Automatic SQL Error Correction:** Automatically attempts to repair invalid SQL queries.
-- 📚 **Dynamic Schema Loading:** Dynamically loads tables, columns, and sample values.
-- 🔀 **Multi-Database / Project Selection:** Allows users to switch between different databases.
-- 🔐 **Secure Configuration:** Uses environment variables for API keys and database credentials.
-- 🎈 **Interactive Streamlit UI:** Simple and clean user interface built with Streamlit.
+* 🗣️ **Natural Language Queries:** Ask database questions using natural language.
+* 🤖 **AI-Powered SQL Generation:** Translates user questions into executable SQL.
+* 🗄️ **MySQL Database Integration:** Connects directly with MySQL databases.
+* 📊 **Tabular Result Display:** Displays query results in interactive tables.
+* 💬 **Conversational Memory:** Remembers previous conversation turns for follow-up questions.
+* 🔄 **Automatic SQL Error Correction:** Automatically attempts to repair invalid SQL queries.
+* 📚 **Dynamic Schema Loading:** Dynamically loads tables, columns, and sample values.
+* 🔀 **Multi-Database / Project Selection:** Allows users to switch between different databases.
+* 🔐 **Secure Configuration:** Uses environment variables for API keys and database credentials.
+* 🎈 **Interactive Streamlit UI:** Simple and clean user interface built with Streamlit.
 
 ---
 
@@ -84,28 +84,22 @@ Schema Loader  Conversation      Prompt
 
 The application provides a clean Streamlit interface where users can select a project and ask questions using natural language.
 
-![AI SQL Data Analyst - Main Interface](IMG-1.png)
-
 ---
 
 ### 2. Project Selection
 
 The application supports multiple database projects. Users can select the required project from the project dropdown.
 
-![Project Selection](IMG-2.png)
-
 Currently supported projects include:
 
-- 🏦 **Bank Churn Analysis**
-- 🍕 **Pizza Sales Analysis**
+* 🏦 **Bank Churn Analysis**
+* 🍕 **Pizza Sales Analysis**
 
 ---
 
 ### 3. Natural Language to SQL
 
 The user can ask a question in natural language. The SQL Agent processes the question and generates an appropriate SQL query using the database schema and LLM.
-
-![Generated SQL Query](IMG-3.png)
 
 For example:
 
@@ -118,8 +112,6 @@ The agent generates SQL using the required tables, joins, aggregation, grouping,
 ### 4. SQL Execution and Results
 
 After generating the SQL query, the application executes it against the selected MySQL database and displays the results in a tabular format.
-
-![SQL Query Results](IMG-4.png)
 
 This demonstrates the complete flow:
 
@@ -191,6 +183,8 @@ The application currently supports multiple MySQL databases through project sele
 
 The Bank Churn project allows users to ask analytical questions about customer information, balances, geography, activity, products, and churn.
 
+The **Bank Churn CSV dataset is available in the repository** and can be downloaded and imported into your local MySQL database.
+
 ### 🍕
 
 **Pizza Sales Analysis**
@@ -198,6 +192,8 @@ The Bank Churn project allows users to ask analytical questions about customer i
 **Database:** `pizzahut`
 
 The Pizza Sales project allows users to ask questions about pizza orders, categories, quantities, revenue, and sales performance.
+
+The **Pizza Sales CSV dataset is available in the repository** and can be downloaded and imported into your local MySQL database.
 
 Project-to-database mapping is maintained in:
 
@@ -221,9 +217,9 @@ The selected project determines which MySQL database will be used.
 
 The schema loader obtains:
 
-- Available tables
-- Column names
-- Sample distinct values where available
+* Available tables
+* Column names
+* Sample distinct values where available
 
 This schema information is provided to the LLM so that SQL queries are generated using the available database structure.
 
@@ -233,11 +229,11 @@ The user's question is sent to the `SQLAgent`.
 
 The agent provides the LLM with:
 
-- System prompt
-- Database name
-- Database schema
-- Conversation history
-- Current user question
+* System prompt
+* Database name
+* Database schema
+* Conversation history
+* Current user question
 
 The LLM then generates the SQL query.
 
@@ -260,10 +256,10 @@ If the generated SQL produces a database error, the SQL Agent does not immediate
 
 The application sends the following information to the SQL error-correction prompt:
 
-- Original SQL query
-- Database error
-- Database schema
-- Selected database
+* Original SQL query
+* Database error
+* Database schema
+* Selected database
 
 ### 6. Automatic SQL Correction
 
@@ -335,11 +331,11 @@ Natural Language Question
 
 The correction prompt specifically instructs the LLM to:
 
-- Return only corrected SQL
-- Preserve the original intent
-- Use only tables and columns available in the schema
-- Avoid explanations
-- Avoid Markdown formatting
+* Return only corrected SQL
+* Preserve the original intent
+* Use only tables and columns available in the schema
+* Avoid explanations
+* Avoid Markdown formatting
 
 This allows the application to retry failed SQL queries instead of immediately returning an error to the user.
 
@@ -430,20 +426,48 @@ pip install -r requirements.txt
 
 ---
 
-## 🗄️ MySQL Configuration
+## 🗄️ MySQL Database & Dataset Setup
 
-Make sure MySQL Server is installed and running.
+The required Bank Churn and Pizza Sales datasets are available as CSV files in the repository.
 
-The application currently uses the following configured databases:
+### 1. Download the Datasets
 
-- `bank_data`
-- `pizzahut`
+Download the available CSV datasets from the repository.
 
-The corresponding databases and tables must exist in the MySQL instance before using the application.
+### 2. Import CSV Files into MySQL
 
-Configure the MySQL connection details through the `.env` file.
+Make sure MySQL is installed and running.
 
-Make sure the MySQL user has permission to access the required databases.
+Import the downloaded CSV files into your local MySQL database using **MySQL Workbench** or your preferred MySQL import method.
+
+Create/use the databases required by the application:
+
+* `bank_data`
+* `pizzahut`
+
+Import the Bank Churn dataset into `bank_data` and the Pizza Sales dataset into `pizzahut`.
+
+### 3. Configure MySQL Connection
+
+Create a `.env` file in the project root and add your MySQL credentials:
+
+```env
+MYSQL_HOST=127.0.0.1
+MYSQL_PORT=3306
+MYSQL_USER=your_mysql_username
+MYSQL_PASSWORD=your_mysql_password
+```
+
+### 4. Run the Application
+
+After importing the datasets and configuring the database connection:
+
+```bash
+venv\Scripts\activate
+streamlit run streamlit_app.py
+```
+
+The application will connect to your local MySQL databases and allow you to query the imported datasets using natural language.
 
 ---
 
@@ -463,21 +487,21 @@ Streamlit will provide a local URL where the application can be accessed.
 
 ### 🏦 Bank Churn Analysis
 
-- Show the top 10 customers with the highest balance.
-- How many customers have exited?
-- Show the number of exited customers by geography.
-- Show the average balance of active members.
-- Which geography has the highest number of exited customers?
+* Show the top 10 customers with the highest balance.
+* How many customers have exited?
+* Show the number of exited customers by geography.
+* Show the average balance of active members.
+* Which geography has the highest number of exited customers?
 
 ### 🍕
 
 **Pizza Sales Analysis**
 
-- What are the top 10 pizzas by revenue?
-- Show total sales by pizza category.
-- Find the total quantity of each pizza category ordered.
-- Which pizza generated the highest revenue?
-- Show the number of pizzas sold by category.
+* What are the top 10 pizzas by revenue?
+* Show total sales by pizza category.
+* Find the total quantity of each pizza category ordered.
+* Which pizza generated the highest revenue?
+* Show the number of pizzas sold by category.
 
 ---
 
@@ -503,24 +527,24 @@ The project was developed incrementally using separate development sprints.
 
 The implementation evolved from a basic SQL-querying application into a modular AI SQL Agent with:
 
-- LLM-based SQL generation
-- MySQL database support
-- Dynamic schema loading
-- Multiple database/project support
-- Conversational memory
-- Automatic SQL error correction
-- Streamlit interface improvements
-- Deployment preparation
+* LLM-based SQL generation
+* MySQL database support
+* Dynamic schema loading
+* Multiple database/project support
+* Conversational memory
+* Automatic SQL error correction
+* Streamlit interface improvements
+* Deployment preparation
 
 The `SQLAgent` acts as the central coordinator between:
 
-- User requests
-- LLM
-- Database schema
-- Conversation history
-- SQL generation
-- MySQL execution
-- SQL error correction
+* User requests
+* LLM
+* Database schema
+* Conversation history
+* SQL generation
+* MySQL execution
+* SQL error correction
 
 ---
 
@@ -530,10 +554,10 @@ The project keeps sensitive configuration outside the source code.
 
 The following information should **never** be committed to GitHub:
 
-- `.env`
-- API keys
-- Database passwords
-- Private credentials
+* `.env`
+* API keys
+* Database passwords
+* Private credentials
 
 The `.gitignore` file excludes:
 
@@ -565,18 +589,16 @@ Pune, India
 
 The project was developed incrementally through multiple development sprints covering:
 
-- Project setup
-- LLM integration
-- SQL generation
-- Interactive query execution
-- Database error handling
-- Conversational interaction
-- Dynamic schema handling
-- MySQL migration
-- Multi-project database support
-- SQL error correction
-- Conversation memory
-- Streamlit UI improvements
-- Deployment preparation
-
----
+* Project setup
+* LLM integration
+* SQL generation
+* Interactive query execution
+* Database error handling
+* Conversational interaction
+* Dynamic schema handling
+* MySQL migration
+* Multi-project database support
+* SQL error correction
+* Conversation memory
+* Streamlit UI improvements
+* Deployment preparation
