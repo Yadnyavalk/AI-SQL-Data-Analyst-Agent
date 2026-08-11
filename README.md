@@ -8,16 +8,16 @@ The application converts natural-language questions into SQL queries using an LL
 
 ## 🚀 Features
 
-* 🗣️ **Natural Language Queries:** Ask database questions using natural language.
-* 🤖 **AI-Powered SQL Generation:** Translates user questions into executable SQL.
-* 🗄️ **MySQL Database Integration:** Connects directly with MySQL databases.
-* 📊 **Tabular Result Display:** Displays query results in interactive tables.
-* 💬 **Conversational Memory:** Remembers previous conversation turns for follow-up questions.
-* 🔄 **Automatic SQL Error Correction:** Automatically attempts to repair invalid SQL queries.
-* 📚 **Dynamic Schema Loading:** Dynamically loads tables, columns, and sample values.
-* 🔀 **Multi-Database / Project Selection:** Allows users to switch between different databases.
-* 🔐 **Secure Configuration:** Uses environment variables for API keys and database credentials.
-* 🎈 **Interactive Streamlit UI:** Simple and clean user interface built with Streamlit.
+- 🗣️ **Natural Language Queries:** Ask database questions using natural language.
+- 🤖 **AI-Powered SQL Generation:** Translates user questions into executable SQL.
+- 🗄️ **MySQL Database Integration:** Connects directly with MySQL databases.
+- 📊 **Tabular Result Display:** Displays query results in interactive tables.
+- 💬 **Conversational Memory:** Remembers previous conversation turns for follow-up questions.
+- 🔄 **Automatic SQL Error Correction:** Automatically attempts to repair invalid SQL queries.
+- 📚 **Dynamic Schema Loading:** Dynamically loads tables, columns, and sample values.
+- 🔀 **Multi-Database / Project Selection:** Allows users to switch between different databases.
+- 🔐 **Secure Configuration:** Uses environment variables for API keys and database credentials.
+- 🎈 **Interactive Streamlit UI:** Simple and clean user interface built with Streamlit.
 
 ---
 
@@ -76,6 +76,10 @@ Schema Loader  Conversation      Prompt
            Streamlit UI
 ```
 
+### Architecture Workflow
+
+![AI SQL Data Analyst Agent — Component Architecture](IMG_5.png)
+
 ---
 
 ## 🖥️ Application Screenshots
@@ -83,6 +87,8 @@ Schema Loader  Conversation      Prompt
 ### 1. Main Application Interface
 
 The application provides a clean Streamlit interface where users can select a project and ask questions using natural language.
+
+![AI SQL Data Analyst Agent — Main Application Interface](IMG-1.png)
 
 ---
 
@@ -92,8 +98,10 @@ The application supports multiple database projects. Users can select the requir
 
 Currently supported projects include:
 
-* 🏦 **Bank Churn Analysis**
-* 🍕 **Pizza Sales Analysis**
+- 🏦 **Bank Churn Analysis**
+- 🍕 **Pizza Sales Analysis**
+
+![AI SQL Data Analyst Agent — Project Selection](IMG-2.png)
 
 ---
 
@@ -106,6 +114,8 @@ For example:
 > Find the total quantity of each pizza category ordered.
 
 The agent generates SQL using the required tables, joins, aggregation, grouping, and ordering.
+
+![AI SQL Data Analyst Agent — Natural Language to SQL](IMG-3.png)
 
 ---
 
@@ -128,6 +138,8 @@ Query Results
       ↓
 Streamlit DataFrame
 ```
+
+![AI SQL Data Analyst Agent — SQL Execution and Results](IMG-4.png)
 
 ---
 
@@ -217,9 +229,9 @@ The selected project determines which MySQL database will be used.
 
 The schema loader obtains:
 
-* Available tables
-* Column names
-* Sample distinct values where available
+- Available tables
+- Column names
+- Sample distinct values where available
 
 This schema information is provided to the LLM so that SQL queries are generated using the available database structure.
 
@@ -229,11 +241,11 @@ The user's question is sent to the `SQLAgent`.
 
 The agent provides the LLM with:
 
-* System prompt
-* Database name
-* Database schema
-* Conversation history
-* Current user question
+- System prompt
+- Database name
+- Database schema
+- Conversation history
+- Current user question
 
 The LLM then generates the SQL query.
 
@@ -256,10 +268,10 @@ If the generated SQL produces a database error, the SQL Agent does not immediate
 
 The application sends the following information to the SQL error-correction prompt:
 
-* Original SQL query
-* Database error
-* Database schema
-* Selected database
+- Original SQL query
+- Database error
+- Database schema
+- Selected database
 
 ### 6. Automatic SQL Correction
 
@@ -331,11 +343,11 @@ Natural Language Question
 
 The correction prompt specifically instructs the LLM to:
 
-* Return only corrected SQL
-* Preserve the original intent
-* Use only tables and columns available in the schema
-* Avoid explanations
-* Avoid Markdown formatting
+- Return only corrected SQL
+- Preserve the original intent
+- Use only tables and columns available in the schema
+- Avoid explanations
+- Avoid Markdown formatting
 
 This allows the application to retry failed SQL queries instead of immediately returning an error to the user.
 
@@ -442,8 +454,8 @@ Import the downloaded CSV files into your local MySQL database using **MySQL Wor
 
 Create/use the databases required by the application:
 
-* `bank_data`
-* `pizzahut`
+- `bank_data`
+- `pizzahut`
 
 Import the Bank Churn dataset into `bank_data` and the Pizza Sales dataset into `pizzahut`.
 
@@ -487,21 +499,21 @@ Streamlit will provide a local URL where the application can be accessed.
 
 ### 🏦 Bank Churn Analysis
 
-* Show the top 10 customers with the highest balance.
-* How many customers have exited?
-* Show the number of exited customers by geography.
-* Show the average balance of active members.
-* Which geography has the highest number of exited customers?
+- Show the top 10 customers with the highest balance.
+- How many customers have exited?
+- Show the number of exited customers by geography.
+- Show the average balance of active members.
+- Which geography has the highest number of exited customers?
 
 ### 🍕
 
 **Pizza Sales Analysis**
 
-* What are the top 10 pizzas by revenue?
-* Show total sales by pizza category.
-* Find the total quantity of each pizza category ordered.
-* Which pizza generated the highest revenue?
-* Show the number of pizzas sold by category.
+- What are the top 10 pizzas by revenue?
+- Show total sales by pizza category.
+- Find the total quantity of each pizza category ordered.
+- Which pizza generated the highest revenue?
+- Show the number of pizzas sold by category.
 
 ---
 
@@ -527,24 +539,24 @@ The project was developed incrementally using separate development sprints.
 
 The implementation evolved from a basic SQL-querying application into a modular AI SQL Agent with:
 
-* LLM-based SQL generation
-* MySQL database support
-* Dynamic schema loading
-* Multiple database/project support
-* Conversational memory
-* Automatic SQL error correction
-* Streamlit interface improvements
-* Deployment preparation
+- LLM-based SQL generation
+- MySQL database support
+- Dynamic schema loading
+- Multiple database/project support
+- Conversational memory
+- Automatic SQL error correction
+- Streamlit interface improvements
+- Deployment preparation
 
 The `SQLAgent` acts as the central coordinator between:
 
-* User requests
-* LLM
-* Database schema
-* Conversation history
-* SQL generation
-* MySQL execution
-* SQL error correction
+- User requests
+- LLM
+- Database schema
+- Conversation history
+- SQL generation
+- MySQL execution
+- SQL error correction
 
 ---
 
@@ -554,10 +566,10 @@ The project keeps sensitive configuration outside the source code.
 
 The following information should **never** be committed to GitHub:
 
-* `.env`
-* API keys
-* Database passwords
-* Private credentials
+- `.env`
+- API keys
+- Database passwords
+- Private credentials
 
 The `.gitignore` file excludes:
 
@@ -589,16 +601,16 @@ Pune, India
 
 The project was developed incrementally through multiple development sprints covering:
 
-* Project setup
-* LLM integration
-* SQL generation
-* Interactive query execution
-* Database error handling
-* Conversational interaction
-* Dynamic schema handling
-* MySQL migration
-* Multi-project database support
-* SQL error correction
-* Conversation memory
-* Streamlit UI improvements
-* Deployment preparation
+- Project setup
+- LLM integration
+- SQL generation
+- Interactive query execution
+- Database error handling
+- Conversational interaction
+- Dynamic schema handling
+- MySQL migration
+- Multi-project database support
+- SQL error correction
+- Conversation memory
+- Streamlit UI improvements
+- Deployment preparation
